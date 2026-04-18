@@ -824,7 +824,7 @@ window.addEventListener('load', function() {
     var h = wrapEl.offsetHeight || Math.round(window.innerHeight * 0.7);
 
     var isMobile = window.innerWidth <= 768;
-    var globe = Globe({ rendererConfig: { antialias: true, powerPreference: 'high-performance' } })
+    var globe = Globe()
       .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
       .backgroundColor('rgba(0,0,0,0)')
       .width(w).height(h)
@@ -834,8 +834,7 @@ window.addEventListener('load', function() {
 
     // Carte inversée : océan clair, continents sombres — brightness réduit pour contraster sur fond crème
     globe.renderer().domElement.style.filter = 'grayscale(1) invert(1) brightness(0.92) contrast(1.1)';
-    globe.renderer().setPixelRatio(isMobile ? Math.min(window.devicePixelRatio, 1.5) : window.devicePixelRatio);
-    globe.renderer().setSize(w, h, false);
+    if (isMobile) { globe.renderer().setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); }
 
     globe.controls().autoRotate = false;
     globe.controls().autoRotateSpeed = 0.35;
