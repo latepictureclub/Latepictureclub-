@@ -824,7 +824,7 @@ window.addEventListener('load', function() {
     var h = wrapEl.offsetHeight || Math.round(window.innerHeight * 0.7);
 
     var isMobile = window.innerWidth <= 768;
-    var globe = Globe({ rendererConfig: { antialias: !isMobile, powerPreference: 'high-performance' } })
+    var globe = Globe({ rendererConfig: { antialias: true, powerPreference: 'high-performance' } })
       .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
       .backgroundColor('rgba(0,0,0,0)')
       .width(w).height(h)
@@ -950,7 +950,8 @@ window.addEventListener('load', function() {
     var defaultAlt = (h / w) > 1.1 ? Math.min(2.4, 1.65 * (h / w)) : 1.65;
     window._globeAlt = defaultAlt;
     globe.pointOfView({ lat: 42, lng: 5, altitude: defaultAlt }, 0);
-    setTimeout(function() { globe.controls().autoRotate = true; mountEl.classList.add('loaded'); }, 1500);
+    setTimeout(function() { globe.controls().autoRotate = true; }, 1500);
+    requestAnimationFrame(function() { requestAnimationFrame(function() { mountEl.classList.add('loaded'); }); });
 
     // Responsive resize
     var resizeTimer;
