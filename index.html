@@ -188,7 +188,7 @@ footer{border-top:1px solid var(--line);padding:32px 48px;display:flex;justify-c
 /* ── Globe & Map section ───────────────────────────────────────── */
 #carte{border-top:1px solid var(--line);padding:0;display:flex;align-items:stretch;position:relative;height:80vh;min-height:520px;max-height:780px}
 #globe-wrap{flex:1 1 0;min-width:0;position:relative;overflow:hidden;background:#e8e4de}
-#globe-mount{opacity:0;transition:opacity 1.2s ease}
+#globe-mount{opacity:0;transition:opacity 1.2s ease;filter:grayscale(1) invert(1) brightness(0.92) contrast(1.1);overflow:hidden;position:relative}
 #globe-mount.loaded{opacity:1}
 /* Destination side panel */
 #dest-panel{flex:0 0 240px;display:flex;flex-direction:column;justify-content:center;padding:56px 44px;border-left:1px solid var(--line)}
@@ -832,8 +832,7 @@ window.addEventListener('load', function() {
       .enablePointerInteraction(true)
       (mountEl);
 
-    // Carte inversée : océan clair, continents sombres — brightness réduit pour contraster sur fond crème
-    globe.renderer().domElement.style.filter = 'grayscale(1) invert(1) brightness(0.92) contrast(1.1)';
+    // Carte inversée : filtre sur le div parent (évite le leak de compositing WebGL)
 
     globe.controls().autoRotate = false;
     globe.controls().autoRotateSpeed = 0.35;
