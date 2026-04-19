@@ -5,6 +5,7 @@
 <title>Late Picture Club</title>
 <!-- Globe.gl — 3D interactive globe -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preload" href="https://unpkg.com/three-globe/example/img/earth-night.jpg" as="image" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
 <style>
 /* ─── RESET & VARS ─── */
@@ -186,8 +187,8 @@ footer{border-top:1px solid var(--line);padding:32px 48px;display:flex;justify-c
 }
 /* ── Globe & Map section ───────────────────────────────────────── */
 #carte{border-top:1px solid var(--line);padding:0;display:flex;align-items:stretch;position:relative;height:80vh;min-height:520px;max-height:780px}
-#globe-wrap{flex:1 1 0;min-width:0;position:relative;overflow:hidden;background:#e8e4de;transform:translateZ(0);isolation:isolate}
-#globe-mount{opacity:0;transition:opacity 0.6s ease}
+#globe-wrap{flex:1 1 0;min-width:0;position:relative;overflow:hidden;background:#e8e4de}
+#globe-mount{opacity:0;transition:opacity 1.2s ease}
 #globe-mount.loaded{opacity:1}
 /* Destination side panel */
 #dest-panel{flex:0 0 240px;display:flex;flex-direction:column;justify-content:center;padding:56px 44px;border-left:1px solid var(--line)}
@@ -823,7 +824,6 @@ window.addEventListener('load', function() {
     var w = wrapEl.offsetWidth  || Math.round(window.innerWidth * 0.65);
     var h = wrapEl.offsetHeight || Math.round(window.innerHeight * 0.7);
 
-    var isMobile = window.innerWidth <= 768;
     var globe = Globe()
       .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
       .backgroundColor('rgba(0,0,0,0)')
@@ -834,12 +834,12 @@ window.addEventListener('load', function() {
 
     // Carte inversée : océan clair, continents sombres — brightness réduit pour contraster sur fond crème
     globe.renderer().domElement.style.filter = 'grayscale(1) invert(1) brightness(0.92) contrast(1.1)';
-    if (isMobile) { globe.renderer().setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); }
 
     globe.controls().autoRotate = false;
     globe.controls().autoRotateSpeed = 0.35;
     globe.controls().enableZoom = false;
-    globe.controls().enableDamping = true;
+
+    mountEl.classList.add('loaded');
 
     // Country polygon outlines
     if (typeof topojson !== 'undefined') {
@@ -950,7 +950,6 @@ window.addEventListener('load', function() {
     window._globeAlt = defaultAlt;
     globe.pointOfView({ lat: 42, lng: 5, altitude: defaultAlt }, 0);
     setTimeout(function() { globe.controls().autoRotate = true; }, 1500);
-    requestAnimationFrame(function() { requestAnimationFrame(function() { mountEl.classList.add('loaded'); }); });
 
     // Responsive resize
     var resizeTimer;
