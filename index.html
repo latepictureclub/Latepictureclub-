@@ -972,7 +972,13 @@ window.addEventListener('load', function() {
       });
       // Chapitre transversal « L'humain »
       var chapitres = TRIPS_DATA.filter(function(t){ return t.hideOnGlobe; });
-      chapitres.forEach(function(c) {
+      chapitres.forEach(function(c, i) {
+        if (i === 0) {
+          var sep = document.createElement('li');
+          sep.className = 'dest-sep';
+          sep.textContent = 'chapitre';
+          listEl.appendChild(sep);
+        }
         var li = document.createElement('li');
         li.className = 'dest-item';
         li.innerHTML = '<span class="dest-city">' + c.articleTitle + '</span><span class="dest-date">' + c.date + '</span>';
