@@ -453,25 +453,6 @@ document.addEventListener('keydown',e=>{if(document.getElementById('lightbox').c
   });
 })();
 
-// ─── FILM GRAIN ─────────────────────────────────────────────────
-(function(){
-  var c=document.createElement('canvas');
-  c.style.cssText='position:fixed;inset:0;width:100%;height:100%;z-index:998;pointer-events:none;opacity:0.028';
-  document.body.appendChild(c);
-  function draw(){
-    c.width=window.innerWidth; c.height=window.innerHeight;
-    var ctx=c.getContext('2d');
-    var id=ctx.createImageData(c.width,c.height);
-    var d=id.data;
-    for(var i=0;i<d.length;i+=4){
-      var v=Math.random()*255|0;
-      d[i]=d[i+1]=d[i+2]=v; d[i+3]=255;
-    }
-    ctx.putImageData(id,0,0);
-  }
-  draw(); setInterval(draw,80);
-  window._grainCanvas = c;
-})();
 
 // ─── LE SOUFFLE — diaporama contemplatif ─────────────────────────
 (function(){
@@ -521,7 +502,6 @@ document.addEventListener('keydown',e=>{if(document.getElementById('lightbox').c
     img.src = photos[idx];
     idx = (idx + 1) % photos.length;
     overlay.classList.add('active');
-    if(window._grainCanvas){ window._grainCanvas.style.transition='opacity 1.5s ease'; window._grainCanvas.style.opacity='0'; }
     setTimeout(function(){ img.classList.add('visible'); }, 400);
     slideTimer = setInterval(showSlide, SLIDE_DURATION);
   }
@@ -532,7 +512,6 @@ document.addEventListener('keydown',e=>{if(document.getElementById('lightbox').c
       clearInterval(slideTimer);
       img.classList.remove('visible');
       overlay.classList.remove('active');
-      if(window._grainCanvas) window._grainCanvas.style.opacity = '0.028';
     }
     clearTimeout(timer);
     if(!modalOuLightboxOuvert()) timer = setTimeout(enter, BREATH_DELAY);
@@ -556,9 +535,8 @@ document.addEventListener('keydown',e=>{if(document.getElementById('lightbox').c
     r=251; g=247; b=236;
   } else if(h >= 19 && h < 21){ // heure bleue — refroidissement accentué
     r=237; g=240; b=250;
-  } else {                      // nuit — bleu froid profond, grain +
+  } else {                      // nuit — bleu froid profond
     r=232; g=235; b=246;
-    if(window._grainCanvas) window._grainCanvas.style.opacity = '0.045';
   }
   document.documentElement.style.setProperty('--bg','rgb('+r+','+g+','+b+')');
 })();
