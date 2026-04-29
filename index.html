@@ -469,13 +469,10 @@ document.addEventListener('keydown',e=>{if(document.getElementById('lightbox').c
   overlay.appendChild(img);
   document.body.appendChild(overlay);
 
-  // Collecter les photos uniques (base64)
+  // Collecter les photos depuis les arrays déjà définis
   var seen = {};
-  document.querySelectorAll('img[src^="data:image"]').forEach(function(el){
-    if(!seen[el.src] && el.naturalWidth > 400){
-      seen[el.src] = true;
-      photos.push(el.src);
-    }
+  [].concat(galleryImgs, humainImgs, homeImgs, italieImgs, italie2Imgs, londresImgs, leonImgs).forEach(function(src){
+    if(!seen[src]){ seen[src]=true; photos.push(src); }
   });
 
   // Pause intelligente : ne jamais activer si lightbox ou modal ouverte
@@ -717,9 +714,9 @@ const TRIPS_DATA = [
     "location": "Vannes, Bretagne",
     "date": "∞",
     "photos": [
-      "photos/vannes/01.webp",
-      "photos/vannes/02.webp",
-      "photos/vannes/03.webp"
+      "photos/optimized/Home/01.jpg",
+      "photos/optimized/Home/02.jpg",
+      "photos/optimized/Home/03.jpg"
     ],
     "modal": "modal-home",
     "articleTitle": "Chez soi",
@@ -756,8 +753,8 @@ const TRIPS_DATA = [
     "location": "Londres, Angleterre",
     "date": "2024",
     "photos": [
-      "photos/londres/01.webp",
-      "photos/londres/02.webp"
+      "photos/optimized/LONDRES/01.jpg",
+      "photos/optimized/LONDRES/02.jpg"
     ],
     "modal": "modal-londres",
     "articleTitle": "Londres",
@@ -772,11 +769,11 @@ const TRIPS_DATA = [
     "location": "Naples, Italie",
     "date": "2024 — 2025",
     "photos": [
-      "photos/naples/01.webp",
-      "photos/naples/02.webp",
-      "photos/naples/03.webp",
-      "photos/naples/04.webp",
-      "photos/naples/05.webp"
+      "photos/optimized/Italie/Acte I/01.jpg",
+      "photos/optimized/Italie/Acte I/05.jpg",
+      "photos/optimized/Italie/Acte I/07.jpg",
+      "photos/optimized/Italie/Acte I/09.jpg",
+      "photos/optimized/Italie/Acte I/11.jpg"
     ],
     "modal": "modal-italie",
     "articleTitle": "Italie",
@@ -787,7 +784,11 @@ const TRIPS_DATA = [
     "coordinates": [12.4964, 41.9028],
     "location": "Rome, Italie",
     "date": "2025",
-    "photos": [],
+    "photos": [
+      "photos/optimized/Italie/Acte II/01.jpg",
+      "photos/optimized/Italie/Acte II/02.jpg",
+      "photos/optimized/Italie/Acte II/03.jpg"
+    ],
     "modal": "modal-italie2",
     "articleTitle": "Le chaos aussi a un plan",
     "articleExcerpt": "Rome, Naples, Cinque Terre \u2014 les meilleurs souvenirs ne sont presque jamais ceux qu\u2019on avait pr\u00e9vus."
@@ -801,10 +802,10 @@ const TRIPS_DATA = [
     "location": "Porto, Portugal",
     "date": "2026",
     "photos": [
-      "photos/porto/01.webp",
-      "photos/porto/02.webp",
-      "photos/porto/03.webp",
-      "photos/porto/04.webp"
+      "photos/optimized/Porto/01.jpg",
+      "photos/optimized/Porto/02.jpg",
+      "photos/optimized/Porto/03.jpg",
+      "photos/optimized/Porto/04.jpg"
     ],
     "modal": "modal-mektoub",
     "scrollTo": "saudade-porto",
@@ -820,9 +821,9 @@ const TRIPS_DATA = [
     "location": "Marrakech, Maroc",
     "date": "2026",
     "photos": [
-      "photos/marrakech/01.webp",
-      "photos/marrakech/02.webp",
-      "photos/marrakech/03.webp"
+      "photos/optimized/Marrakech/01.jpg",
+      "photos/optimized/Marrakech/02.jpg",
+      "photos/optimized/Marrakech/03.jpg"
     ],
     "modal": "modal-mektoub",
     "articleTitle": "Mektoub",
@@ -977,7 +978,7 @@ window.addEventListener('load', function() {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function() {
         var w2 = wrapEl.offsetWidth;
-        var h2 = wrapEl.offsetHeight || carteEl.offsetHeight;
+        var h2 = wrapEl.offsetHeight || document.getElementById('carte').offsetHeight;
         if (w2 > 0 && h2 > 0) {
           globe.width(w2).height(h2);
           globe.renderer().setSize(w2, h2, false);
@@ -1157,6 +1158,7 @@ document.querySelectorAll('.modal').forEach(function(modal) {
 (function() {
   var tracks = [
     { sel: '#humain-track',  fn: function(d){ moveHumainCarousel(d); } },
+    { sel: '#leon-track',    fn: function(d){ moveLeonCarousel(d); } },
     { sel: '#londres-track', fn: function(d){ moveLondresCarousel(d); } },
     { sel: '#italie-track',  fn: function(d){ moveItalieCarousel(d); } },
     { sel: '#italie2-track', fn: function(d){ moveItalie2Carousel(d); } },
