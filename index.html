@@ -1307,5 +1307,33 @@ function goToMektoub2Slide(n){var s=document.querySelectorAll('#mektoub2-track .
 var mektoub3Slide=0;
 function moveMektoub3Carousel(d){var s=document.querySelectorAll('#mektoub3-track .slide');s[mektoub3Slide].classList.remove('active');mektoub3Slide=(mektoub3Slide+d+s.length)%s.length;s[mektoub3Slide].classList.add('active');document.getElementById('mektoub3-cur').textContent=mektoub3Slide+1;}
 function goToMektoub3Slide(n){var s=document.querySelectorAll('#mektoub3-track .slide');s[mektoub3Slide].classList.remove('active');mektoub3Slide=n;s[n].classList.add('active');document.getElementById('mektoub3-cur').textContent=n+1;}
+
+// ─── CLIC MOITIÉ IMAGE → navigation (gauche = précédente, droite = suivante) ─
+(function(){
+  var cfgs=[
+    {sel:'#galerie .carousel-track',prev:function(){window.moveCarousel&&window.moveCarousel(-1);},next:function(){window.moveCarousel&&window.moveCarousel(1);}},
+    {sel:'#humain-track',  prev:function(){moveHumainCarousel(-1);},  next:function(){moveHumainCarousel(1);}},
+    {sel:'#leon-track',    prev:function(){moveLeonCarousel(-1);},    next:function(){moveLeonCarousel(1);}},
+    {sel:'#mektoub1-track',prev:function(){moveMektoub1Carousel(-1);},next:function(){moveMektoub1Carousel(1);}},
+    {sel:'#mektoub2-track',prev:function(){moveMektoub2Carousel(-1);},next:function(){moveMektoub2Carousel(1);}},
+    {sel:'#mektoub3-track',prev:function(){moveMektoub3Carousel(-1);},next:function(){moveMektoub3Carousel(1);}},
+    {sel:'#londres-track', prev:function(){moveLondresCarousel(-1);}, next:function(){moveLondresCarousel(1);}},
+    {sel:'#italie-track',  prev:function(){moveItalieCarousel(-1);},  next:function(){moveItalieCarousel(1);}},
+    {sel:'#italie2-track', prev:function(){moveItalie2Carousel(-1);}, next:function(){moveItalie2Carousel(1);}},
+    {sel:'#home-track',    prev:function(){moveHomeCarousel(-1);},    next:function(){moveHomeCarousel(1);}}
+  ];
+  cfgs.forEach(function(c){
+    var el=document.querySelector(c.sel);
+    if(!el)return;
+    // Phase capture : intercepte avant l'onclick inline des images
+    el.addEventListener('click',function(e){
+      var rect=el.getBoundingClientRect();
+      var x=e.clientX-rect.left;
+      if(x<rect.width*0.42){e.stopPropagation();c.prev();}
+      else if(x>rect.width*0.58){e.stopPropagation();c.next();}
+      // zone centrale 16% : laisse passer vers la lightbox
+    },true);
+  });
+})();
 </script>
 </body></html>
