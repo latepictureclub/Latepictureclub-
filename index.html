@@ -1183,11 +1183,8 @@ document.querySelectorAll('.modal').forEach(function(modal) {
   modal.addEventListener('touchend', function(e) {
     var dy = e.changedTouches[0].clientY - sy;
     var dx = Math.abs(e.changedTouches[0].clientX - sx);
-    // Scroll container : modal lui-même ou .modal-inner
-    var scrollEl = modal.querySelector('.modal-inner') || modal;
-    var atTop = scrollEl.scrollTop <= 2;
-    // Ferme seulement si : tout en haut + geste vers le bas très marqué (>200px) + très vertical (dx < 40)
-    if (atTop && dy > 200 && dx < 40) closeModal(modal.id);
+    var atTop = modal.scrollTop <= 2;
+    if (atTop && dy > 120 && dx < 60) closeModal(modal.id);
   }, {passive: true});
 });
 
