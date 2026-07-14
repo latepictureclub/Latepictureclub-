@@ -221,6 +221,13 @@ footer{border-top:1px solid var(--line);padding:32px 48px;display:flex;justify-c
 .g-dot{width:6px;height:6px;border-radius:50%;background:#111;box-shadow:0 0 4px rgba(17,17,17,.5),0 0 10px rgba(17,17,17,.2);transition:transform .3s,box-shadow .3s;flex-shrink:0}
 .g-point-wrap:hover .g-dot{transform:scale(1.8);box-shadow:0 0 7px rgba(17,17,17,.85),0 0 18px rgba(17,17,17,.4),0 0 30px rgba(17,17,17,.15)}
 .g-name{margin-top:5px;font-size:6px;font-family:var(--sans);letter-spacing:.14em;text-transform:uppercase;color:rgba(17,17,17,.45);white-space:nowrap;line-height:1}
+/* Points groupés */
+.g-group .g-dot{width:9px;height:9px;box-shadow:0 0 0 4px rgba(17,17,17,.12),0 0 6px rgba(17,17,17,.55),0 0 14px rgba(17,17,17,.22)}
+.g-group .g-name{font-size:6.5px;letter-spacing:.2em;color:rgba(17,17,17,.6)}
+.g-group:hover .g-dot{transform:scale(1.5)}
+.g-child .g-dot{animation:childIn .45s cubic-bezier(.34,1.56,.64,1) both}
+.g-child .g-name{animation:childIn .45s .08s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes childIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
 /* Map popup — dark editorial */
 #map-popup{position:absolute;bottom:32px;left:32px;width:260px;background:#111;border:none;padding:26px 28px 24px;z-index:900;opacity:0;transform:translateY(14px);transition:opacity .35s cubic-bezier(.4,0,.2,1),transform .35s;pointer-events:none;box-shadow:0 12px 48px rgba(0,0,0,.35)}
 #map-popup.open{opacity:1;transform:translateY(0);pointer-events:all}
@@ -758,6 +765,8 @@ function toggleSpotify(){
 const TRIPS_DATA = [
   {
     "id": "vannes-home",
+    "group": "bretagne",
+    "spread": [-1.95, 48.15],
     "coordinates": [
       -2.7603,
       47.6586
@@ -772,6 +781,18 @@ const TRIPS_DATA = [
     "modal": "modal-home",
     "articleTitle": "Chez soi",
     "articleExcerpt": "Là où tout commence et où tout revient."
+  },
+  {
+    "id": "ile-darz-2026",
+    "group": "bretagne",
+    "spread": [-3.6, 47.05],
+    "coordinates": [-2.8019, 47.5936],
+    "location": "Île d'Arz, Bretagne",
+    "date": "Nov. 2026",
+    "photos": [],
+    "modal": null,
+    "articleTitle": "Dernière saison",
+    "articleExcerpt": "Coming in November 2026."
   },
   {
     "id": "humain",
@@ -813,6 +834,7 @@ const TRIPS_DATA = [
   },
   {
     "id": "naples-2024-25",
+    "group": "italie",
     "coordinates": [
       14.2681,
       40.8518
@@ -832,6 +854,7 @@ const TRIPS_DATA = [
   },
   {
     "id": "rome-2025",
+    "group": "italie",
     "coordinates": [12.4964, 41.9028],
     "location": "Rome, Italie",
     "date": "2025",
@@ -877,6 +900,12 @@ const TRIPS_DATA = [
     "articleExcerpt": "Marrakech ne se donne pas. Elle se laisse approcher, doucement, si on sait se taire."
   }
 ];
+
+// ─── GROUPES DE POINTS (éclatement au clic) ─────────────────────────
+const POINT_GROUPS = {
+  bretagne: { label: 'Bretagne', lat: 47.62, lng: -2.78, alt: 0.55 },
+  italie:   { label: 'Italie',   lat: 41.40, lng: 13.40, alt: 0.55 }
+};
 
 // ─── GLOBE.GL 3D ─────────────────────────────────────────────────────
 window.addEventListener('load', function() {
@@ -924,7 +953,7 @@ window.addEventListener('load', function() {
     // Build article points
     function openPointPopup(d) {
       // Zoom léger vers la ville
-      globe.pointOfView({ lat: d.lat, lng: d.lng, altitude: 1.25 }, 700);
+      globe.pointOfView({ lat: d.lat, lng: d.lng, altitude: (d.isChild || d.group) ? 0.7 : 1.25 }, 700);
       var popup = document.getElementById('map-popup');
       var btn   = document.getElementById('mp-read-btn');
       document.getElementById('mp-loc').textContent     = d.name;
@@ -949,23 +978,66 @@ window.addEventListener('load', function() {
         city:         t.location.split(',')[0],
         date:         t.date,
         modal:        t.modal,
+        group:        t.group  || null,
+        spread:       t.spread || null,
         articleTitle: t.articleTitle  || t.location,
         articleExcerpt: t.articleExcerpt || ''
       };
     });
 
+    // ─── Parents / enfants ───
+    var expandedGroup = null;
+    function visiblePoints() {
+      var pts = [];
+      articlePoints.forEach(function(d) {
+        if (!d.group) { pts.push(d); }
+        else if (d.group === expandedGroup) {
+          var p = Object.assign({}, d, { isChild: true });
+          if (d.spread) { p.lng = d.spread[0]; p.lat = d.spread[1]; }
+          pts.push(p);
+        }
+      });
+      Object.keys(POINT_GROUPS).forEach(function(k) {
+        if (k !== expandedGroup) {
+          var g = POINT_GROUPS[k];
+          pts.push({ isGroup: true, key: k, lat: g.lat, lng: g.lng, city: g.label });
+        }
+      });
+      return pts;
+    }
+    function refreshPoints() { globe.htmlElementsData(visiblePoints()); }
+    function expandGroup(k) {
+      if (expandedGroup === k) return;
+      expandedGroup = k;
+      refreshPoints();
+      var g = POINT_GROUPS[k];
+      globe.pointOfView({ lat: g.lat, lng: g.lng, altitude: g.alt || 0.6 }, 800);
+    }
+    function collapseGroups() {
+      if (!expandedGroup) return;
+      expandedGroup = null;
+      refreshPoints();
+    }
+
     // Glowing cream HTML points
     globe
-      .htmlElementsData(articlePoints)
+      .htmlElementsData(visiblePoints())
       .htmlElement(function(d) {
         var el = document.createElement('div');
-        el.className = 'g-point-wrap';
+        el.className = 'g-point-wrap' + (d.isGroup ? ' g-group' : '') + (d.isChild ? ' g-child' : '');
         el.innerHTML = '<div class="g-dot"></div><span class="g-name">' + d.city + '</span>';
-        el.addEventListener('click', function(e) { e.stopPropagation(); openPointPopup(d); });
+        el.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (d.isGroup) { expandGroup(d.key); }
+          else { openPointPopup(d); }
+        });
         return el;
       })
       .htmlLat('lat').htmlLng('lng')
       .htmlAltitude(0.02);
+
+    // Clic sur le globe (hors point) : referme les groupes
+    globe.onGlobeClick(function() { collapseGroups(); });
 
     // Animated journey arcs
     var journeyArcs = [];
@@ -991,7 +1063,8 @@ window.addEventListener('load', function() {
         li.innerHTML = '<span class="dest-city">' + d.city + '</span><span class="dest-date">' + d.date + '</span>';
         li.addEventListener('click', function() {
           globe.controls().autoRotate = false;
-          globe.pointOfView({ lat: d.lat, lng: d.lng, altitude: 1.25 }, 900);
+          if (d.group) { expandGroup(d.group); }
+          globe.pointOfView({ lat: d.lat, lng: d.lng, altitude: d.group ? 0.7 : 1.25 }, 900);
           setTimeout(function() { openPointPopup(d); }, 750);
         });
         listEl.appendChild(li);
