@@ -307,6 +307,22 @@ nav ul a{opacity:.65!important}
   .modal{animation:none}
   *{transition-duration:.01ms!important;animation-duration:.01ms!important}
 }
+
+/* ─── LE CIEL ─── */
+#sky-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity 1.1s ease;pointer-events:none;z-index:3}
+#globe-wrap.sky-on #sky-canvas{opacity:1;pointer-events:auto;touch-action:none;cursor:grab}
+#globe-mount{transition:opacity 1s ease}
+#globe-wrap.sky-on #globe-mount{opacity:0;pointer-events:none}
+#sky-btn{position:absolute;left:22px;bottom:20px;z-index:4;display:flex;align-items:center;gap:8px;background:rgba(248,247,245,.85);backdrop-filter:blur(4px);border:1px solid var(--line);color:#111;font-family:var(--sans);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;padding:10px 16px;cursor:pointer;opacity:.45;transition:opacity .6s cubic-bezier(.4,0,.2,1),border-color .3s,color .3s,transform .6s cubic-bezier(.4,0,.2,1)}
+#sky-btn:hover{border-color:rgba(0,0,0,.4);opacity:1}
+#sky-btn.is-hidden{opacity:0;pointer-events:none;transform:translateY(6px)}
+#sky-btn .st{color:#b98f43;font-size:.7rem;line-height:1}
+#sky-btn .ar{display:inline-block;transition:transform .4s;font-size:.7rem}
+#globe-wrap.sky-on #sky-btn{background:rgba(20,18,14,.55);color:#f4efe6;border-color:rgba(244,239,230,.2);opacity:.8}
+#globe-wrap.sky-on #sky-btn:hover{opacity:1}
+#globe-wrap.sky-on #sky-btn .ar{transform:rotate(180deg)}
+.dest-item--expo .dest-city{color:#b98f43}
+@media(max-width:640px){#sky-btn{left:14px;bottom:14px;padding:9px 13px}}
 </style>
 </head><body>
 <nav><span class="brand">late picture club</span><ul><li><a href="#galerie">galerie</a></li><li><a href="#carte">voyages</a></li><li><a href="#portrait">portrait</a></li><li><a href="#shop">tirages</a></li><li><a href="#about">à propos</a></li><li><a href="#contact">contact</a></li></ul></nav>
@@ -327,13 +343,13 @@ nav ul a{opacity:.65!important}
 <div class="carousel-nav"><button onclick="moveCarousel(-1)" aria-label="Image précédente">←</button><div class="dots" id="dots"></div><button onclick="moveCarousel(1)" aria-label="Image suivante">→</button></div></div></section>
 
 <section id="carte">
-  <div id="globe-wrap"><div id="globe-mount"></div></div>
+  <div id="globe-wrap"><div id="globe-mount"></div><canvas id="sky-canvas"></canvas><button id="sky-btn" type="button" aria-label="Voir les constellations"><span class="st">✦</span><span id="sky-btn-label">constellations</span><span class="ar">↗</span></button></div>
   <div id="dest-panel">
     <span class="dest-eyebrow">Voyages</span>
     <ul id="dest-list" class="dest-list"></ul>
   </div>
   <div id="map-popup">
-    <button class="mp-close" onclick="document.getElementById('map-popup').classList.remove('open');window._globe&&window._globe.pointOfView({lat:42,lng:5,altitude:window._globeAlt||1.65},700)">✕</button>
+    <button class="mp-close" onclick="document.getElementById('map-popup').classList.remove('open');!window._skyMode&&window._globe&&window._globe.pointOfView({lat:42,lng:5,altitude:window._globeAlt||1.65},700)">✕</button>
     <span class="mp-loc" id="mp-loc"></span>
     <div class="mp-title" id="mp-title"></div>
     <p class="mp-excerpt" id="mp-excerpt"></p>
@@ -412,6 +428,49 @@ Le "Club" n'est pas une élite. C'est un sentiment d'appartenance. L'idée que q
 <p>Voyager avec quelqu'un, c'est accepter de voir le même monde avec d'autres yeux. J'espère que c'est le début — de beaucoup de routes, de beaucoup de silences partagés, de beaucoup de photos qu'on ne prendra pas.</p>
 <p>C’est la vie : écrire des histoires que nous aurons plaisir à relire dans quelques années. Ne perdez jamais foi en vous.</p>
 </div><div class="carousel"><div class="carousel-track" id="mektoub3-track"><div class="slide active"><img src="photos/optimized/Porto/01.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/02.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/03.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/04.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/05.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/06.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/07.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/08.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/09.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/10.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/11.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/12.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/13.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/14.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/15.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/16.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/17.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/18.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/19.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/20.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/21.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/22.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/23.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/24.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/25.jpg" alt="Porto"></div><div class="slide"><img src="photos/optimized/Porto/26.webp" alt="Porto"></div><div class="slide"><img data-b64="p28" alt="Porto"></div></div><div class="carousel-nav"><button onclick="moveMektoub3Carousel(-1)" aria-label="Image précédente">←</button><div class="carousel-counter"><span id="mektoub3-cur">1</span> / <span id="mektoub3-total">27</span></div><button onclick="moveMektoub3Carousel(1)" aria-label="Image suivante">→</button></div></div></div></div>
+<div class="modal" id="modal-paris" role="dialog" aria-modal="true" aria-labelledby="modal-paris-title" onclick="if(event.target===this)closeModal('modal-paris')"><button class="modal-close" id="close-paris" onclick="closeModal('modal-paris')">✕ fermer</button><div class="modal-inner"><span class="modal-tag">Voyage · Paris · Toujours</span><h2 class="modal-title" id="modal-paris-title">Palimpseste</h2><div class="modal-body">
+<p class="article-intro"><em>Il y a des villes qu'on visite, et d'autres qui nous précèdent. Paris m'attendait avant même que je sache lire une carte.</em></p>
+<p class="article-intro"><em>Un maillot au fond d'une armoire d'enfant, deux années vécues sur place, un retour l'appareil à la main. Trois couches d'une même histoire.</em></p>
+<p class="article-intro"><em>Palimpseste : un parchemin qu'on gratte pour écrire à nouveau — et le texte d'avant transparaît toujours.</em></p>
+<p class="chapter">I. La promesse</p>
+<p class="pull-quote-breton">« Ajoutez deux lettres à Paris : c'est le paradis. »</p>
+<p class="pull-quote-translation">(Jules Renard)</p>
+<p>On ne découvre pas Paris. On y revient — même la première fois.</p>
+<p><em>Enfant, je l'aimais déjà sans y avoir mis les pieds.</em></p>
+<p>Un maillot rouge et bleu, un stade que je ne connaissais qu'à la radio, des soirs de match où la capitale entrait dans le salon. Certaines villes, on les choisit bien avant de les connaître.</p>
+<p><em>Le Parc grondait à des centaines de kilomètres. Moi, je promettais d'y être un jour.</em></p>
+</div><div class="carousel"><div class="carousel-track" id="paris1-track"><div class="slide active"><img src="photos/optimized/Paris/01.jpg" loading="lazy" alt="Paris — Le Louvre au couchant"></div><div class="slide"><img src="photos/optimized/Paris/02.jpg" loading="lazy" alt="Paris — La pyramide"></div><div class="slide"><img src="photos/optimized/Paris/03.jpg" loading="lazy" alt="Paris — Le Sacré-Cœur"></div><div class="slide"><img src="photos/optimized/Paris/04.jpg" loading="lazy" alt="Paris — La Victoire de Samothrace"></div></div><div class="carousel-nav"><button onclick="moveParis1Carousel(-1)" aria-label="Image précédente">←</button><div class="carousel-counter"><span id="paris1-cur">1</span> / <span>4</span></div><button onclick="moveParis1Carousel(1)" aria-label="Image suivante">→</button></div></div><div class="modal-body">
+<p class="chapter">II. Les années</p>
+<p class="pull-quote-breton">« Paris est une fête. »</p>
+<p class="pull-quote-translation">(Ernest Hemingway)</p>
+<p>Puis j'y ai vécu. Deux ans. À deux.</p>
+<p><em>Certaines adresses gardent nos noms bien après nous.</em></p>
+<p>Je pourrais refaire le trajet les yeux fermés — la boulangerie du coin, le quai, la ligne de métro qui grince toujours au même endroit. La ville n'a rien oublié. Moi non plus.</p>
+<p>Aux terrasses, d'autres vivent maintenant leurs propres histoires. Un thé qu'on verse, une conversation qu'on devine, un cireur qui ferme boutique tard. Paris continue sans nous.</p>
+<p><em>C'est peut-être ça, l'élégance.</em></p>
+</div><div class="carousel"><div class="carousel-track" id="paris2-track"><div class="slide active"><img src="photos/optimized/Paris/05.jpg" loading="lazy" alt="Paris — Terrasse, le thé"></div><div class="slide"><img src="photos/optimized/Paris/06.jpg" loading="lazy" alt="Paris — Fouquet's, conversation"></div><div class="slide"><img src="photos/optimized/Paris/07.jpg" loading="lazy" alt="Paris — En terrasse"></div><div class="slide"><img src="photos/optimized/Paris/08.jpg" loading="lazy" alt="Paris — Portrait de nuit"></div><div class="slide"><img src="photos/optimized/Paris/09.jpg" loading="lazy" alt="Paris — L'homme au chapeau"></div><div class="slide"><img src="photos/optimized/Paris/10.jpg" loading="lazy" alt="Paris — Les Cireurs"></div></div><div class="carousel-nav"><button onclick="moveParis2Carousel(-1)" aria-label="Image précédente">←</button><div class="carousel-counter"><span id="paris2-cur">1</span> / <span>6</span></div><button onclick="moveParis2Carousel(1)" aria-label="Image suivante">→</button></div></div><div class="modal-body">
+<p class="chapter">III. Le retour</p>
+<p class="pull-quote-breton">« Fluctuat nec mergitur. »</p>
+<p class="pull-quote-translation">(Battue par les flots, jamais ne sombre — devise de Paris.)</p>
+<p>Aujourd'hui je reviens avec un appareil. C'est une autre manière de marcher.</p>
+<p><em>La pierre du Louvre prend le soir comme une peau. La Victoire avance, toujours, sans tête et sans doute.</em></p>
+<p>Sous l'Arc, les noms gravés regardent passer les vivants. Dans le viseur, la ville file, se dédouble, redevient nette au moment où on ne l'attend plus.</p>
+<p>Paris s'écrit par couches. On gratte, on recommence — et le texte d'avant transparaît toujours un peu. Cette série en est une de plus.</p>
+<p><em>Ni la première, ni la dernière.</em></p>
+</div><div class="carousel"><div class="carousel-track" id="paris3-track"><div class="slide active"><img src="photos/optimized/Paris/11.jpg" loading="lazy" alt="Paris — La Marseillaise, Arc de Triomphe"></div><div class="slide"><img src="photos/optimized/Paris/12.jpg" loading="lazy" alt="Paris — Sous l'Arc"></div><div class="slide"><img src="photos/optimized/Paris/13.jpg" loading="lazy" alt="Paris — La frise"></div><div class="slide"><img src="photos/optimized/Paris/14.jpg" loading="lazy" alt="Paris — La rue en mouvement"></div><div class="slide"><img src="photos/optimized/Paris/15.jpg" loading="lazy" alt="Paris — Colonnade"></div><div class="slide"><img src="photos/optimized/Paris/16.jpg" loading="lazy" alt="Paris — Portrait au Louvre"></div><div class="slide"><img src="photos/optimized/Paris/17.jpg" loading="lazy" alt="Paris — La nuit"></div></div><div class="carousel-nav"><button onclick="moveParis3Carousel(-1)" aria-label="Image précédente">←</button><div class="carousel-counter"><span id="paris3-cur">1</span> / <span>7</span></div><button onclick="moveParis3Carousel(1)" aria-label="Image suivante">→</button></div></div></div></div>
+
+<div class="modal" id="modal-expo" role="dialog" aria-modal="true" aria-labelledby="modal-expo-title" onclick="if(event.target===this)closeModal('modal-expo')"><button class="modal-close" id="close-expo" onclick="closeModal('modal-expo')">✕ fermer</button><div class="modal-inner"><span class="modal-tag">Exposition temporaire · Septembre 2026</span><h2 class="modal-title" id="modal-expo-title">Courir pour<br><em>Danièle</em></h2><div class="modal-body">
+<p class="pull-quote-breton">« War-raok. »</p>
+<p class="pull-quote-translation">(En avant — breton.)</p>
+<p>42 kilomètres. Un prénom.</p>
+<p><em>Danièle. Ma grand-mère.</em></p>
+<p>Fin septembre, je courrai le marathon de Vannes. Pas contre un chrono — pour une cause. Chaque kilomètre parcouru soutient la recherche contre le cancer, aux côtés de l'Institut Curie.</p>
+<p>On photographie pour retenir. On court pour avancer. Ce projet fait les deux à la fois : garder une trace, et la transformer en quelque chose d'utile.</p>
+<p>Dans le ciel de ce site, la Grande Ourse porte son nom. Sept étoiles, comme les sept lettres de Danièle — une constellation qu'on retrouve toujours, où qu'on soit.</p>
+<p><em>La collecte est ouverte. Chaque don compte, quel que soit son montant.</em></p>
+<p style="text-align:center;margin-top:36px"><a class="mp-btn" style="display:inline-block;width:auto;padding:13px 34px;text-decoration:none;border:1px solid rgba(0,0,0,.12)" href="https://vosactionsdegenerosite.jecollecte.curie.fr/fundraisers/goulwen-chaumy" target="_blank" rel="noopener">Soutenir la collecte →</a></p>
+</div></div></div>
+
 <div class="modal" id="modal-londres" role="dialog" aria-modal="true" aria-labelledby="modal-londres-title" onclick="if(event.target===this)closeModal('modal-londres')"><button class="modal-close" id="close-londres" onclick="closeModal('modal-londres')">✕ fermer</button><div class="modal-inner"><span class="modal-tag">Voyage · 2024</span><h2 class="modal-title" id="modal-londres-title">Somewhere in London</h2><p class="pull-quote-breton">« The city disappears into itself, and so do we. »</p><div class="modal-body"><p>Le punk et la monarchie à trois stations de métro l'une de l'autre. Camden qui sent le vinyle mouillé et la friture. Buckingham et sa garde qui ne cille pas depuis des siècles. C'est ça, Londres — deux mondes qui cohabitent sans se regarder de travers, et qui finissent par n'en faire qu'un.</p><p>Parce qu'à Londres, les contraires ne s'affrontent pas — ils coexistent, indifférents l'un à l'autre, et c'est exactement ce qui rend la ville vivable. Dans le même quartier : un marché aux puces, une galerie d'art contemporain, un pub victorien et un restaurant coréen ouvert à 2h du matin. Personne ne trouve ça étrange. Personne ne trouve ça remarquable. C'est juste Londres.</p><p>Ce qui frappe vraiment, c'est l'humain. Dans chaque quartier une langue différente, une cuisine différente, une manière d'être différente — et pourtant une ville qui tient, qui respire, qui avance ensemble. La culture anglo-saxonne dans ce qu’elle a de meilleur : le respect de l'individu, la musique comme religion, l'art accessible à tous dans des musées gratuits parmi les plus grands du monde.</p><p>Brixton, Shoreditch, Notting Hill, la City — autant de villes dans la ville, autant de versions de Londres selon l'heure et le quartier. On peut passer une semaine ici et n'effleurer qu'une partie de ce qu'elle a à offrir. C'est ça qui fait revenir.</p><p>Londres ne s'explique pas. Elle se ressent. Et une fois qu'elle vous a eu, elle ne vous lâche plus vraiment.</p></div><div class="carousel"><div class="carousel-track" id="londres-track"><div class="slide active"><img src="photos/optimized/LONDRES/01.jpg" onclick="openLb(londresImgs,0)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/02.jpg" onclick="openLb(londresImgs,1)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/03.jpg" onclick="openLb(londresImgs,2)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/04.jpg" onclick="openLb(londresImgs,3)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/05.jpg" onclick="openLb(londresImgs,4)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/06.jpg" onclick="openLb(londresImgs,5)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/07.jpg" onclick="openLb(londresImgs,6)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/08.jpg" onclick="openLb(londresImgs,7)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/09.jpg" onclick="openLb(londresImgs,8)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/10.jpg" onclick="openLb(londresImgs,9)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/11.jpg" onclick="openLb(londresImgs,10)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/12.jpg" onclick="openLb(londresImgs,11)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/13.jpg" onclick="openLb(londresImgs,12)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/14.jpg" onclick="openLb(londresImgs,13)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/15.jpg" onclick="openLb(londresImgs,14)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/LONDRES/16.jpg" onclick="openLb(londresImgs,15)" loading="lazy" /></div></div><div class="carousel-nav"><button onclick="moveLondresCarousel(-1)" aria-label="Image précédente">←</button><div class="dots" id="londres-dots"><span class="dot active" onclick="goToLondresSlide(0)"></span><span class="dot" onclick="goToLondresSlide(1)"></span><span class="dot" onclick="goToLondresSlide(2)"></span><span class="dot" onclick="goToLondresSlide(3)"></span><span class="dot" onclick="goToLondresSlide(4)"></span><span class="dot" onclick="goToLondresSlide(5)"></span><span class="dot" onclick="goToLondresSlide(6)"></span><span class="dot" onclick="goToLondresSlide(7)"></span><span class="dot" onclick="goToLondresSlide(8)"></span><span class="dot" onclick="goToLondresSlide(9)"></span><span class="dot" onclick="goToLondresSlide(10)"></span><span class="dot" onclick="goToLondresSlide(11)"></span><span class="dot" onclick="goToLondresSlide(12)"></span><span class="dot" onclick="goToLondresSlide(13)"></span><span class="dot" onclick="goToLondresSlide(14)"></span><span class="dot" onclick="goToLondresSlide(15)"></span></div><button onclick="moveLondresCarousel(1)" aria-label="Image suivante">→</button></div></div></div></div>
 <div class="modal" id="modal-italie" role="dialog" aria-modal="true" aria-labelledby="modal-italie-title" onclick="if(event.target===this)closeModal('modal-italie')"><button class="modal-close" id="close-italie" onclick="closeModal('modal-italie')">✕ fermer</button><div class="modal-inner"><span class="modal-tag">Voyage · Acte I · 2024</span><h2 class="modal-title" id="modal-italie-title">L'appel du Sud — Juin 2024</h2><p class="pull-quote-breton">« Chi va piano, va sano e va lontano. »</p><p class="pull-quote-breton">« Vedi Napoli, e poi muori. »</p><p class="pull-quote-translation">(Voir Naples, et mourir.)</p><div class="modal-body"><p>Juin 2024. Un scooter, une carte approximative, et une ville du Sud qui sent la tomate, le basalte chaud et le café brûlé. Premier voyage seul — pas de plan B, pas de quelqu'un à qui demander "t’en penses quoi ?". Juste la route qui s'ouvre sur Gragnano, capitale mondiale des pâtes, où Ferdinand II de Bourbon s'approvisionnait lui-même auprès des artisans de la Via Roma. Un endroit où le temps s'est arrêté quelque part entre la Renaissance et aujourd'hui, et qui n'a pas l'air de s'en plaindre.</p><p>Bacoli d'abord, les lacs volcaniques et le silence des Champs Phlégréens — cette zone où la terre respire encore, où le sol est chaud sous les pieds et où l'air sent le soufre par intermittence. Puis Sorrente, suspendue au-dessus des falaises, ses ruelles étroites et ses citrons gros comme des poings. Amalfi, Atrani, Positano — des villages accrochés entre ciel et Méditerranée comme si la gravité ne s'appliquait pas ici, chaque maison une nuance différente d'ocre, de rose, de blanc cassé. On comprend pourquoi les peintres ne sont jamais repartis.</p><p>Pompéi ensuite. Ses rues figées depuis 79 après J-C, où chaque pas est un dialogue avec ceux qui ne sont pas partis à temps. Il y a quelque chose de vertigineux à marcher sur ces pavés — la vie d'avant, intacte sous la cendre, avec ses thermes, ses commerces, ses fresques et ses petits drames quotidiens. Le Vésuve veille au-dessus, comme il a toujours veillé.</p><p>Naples pour finir, ou plutôt pour commencer à comprendre. Le Quartier Espagnol qui vibre à chaque heure du jour et de la nuit, les fresques de Diego Maradona sur les murs, la Piazza Bellini et ses intellectuels attablés depuis des siècles, le Castel dell'Ovo qui trempe ses pieds dans la mer. Et là-haut, immense, silencieux, omniscient — le Vésuve encore. Il regarde tout ça depuis toujours, et il attendra encore longtemps après.</p><p>Voyager seul, c'est se retrouver sans filet. C'est prendre les décisions qu'on remet toujours à demain, choisir la route sans demander l'avis de personne, manger seul à une table en terrasse et trouver ça bien. C'est réaliser, quelque part sur une route de corniche à 80 km/h avec le soleil dans la gueule et le golfe de Naples en contrebas, qu'on est exactement là où on devait être. Pas en vacances. Chez soi.</p></div><div class="carousel"><div class="carousel-track" id="italie-track"><div class="slide active"><img src="photos/optimized/Italie/Acte I/01.jpg" onclick="openLb(italieImgs,0)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/05.jpg" onclick="openLb(italieImgs,1)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/07.jpg" onclick="openLb(italieImgs,2)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/09.jpg" onclick="openLb(italieImgs,3)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/11.jpg" onclick="openLb(italieImgs,4)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/14.jpg" onclick="openLb(italieImgs,5)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/15.jpg" onclick="openLb(italieImgs,6)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/17.jpg" onclick="openLb(italieImgs,7)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/18.jpg" onclick="openLb(italieImgs,8)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/20.jpg" onclick="openLb(italieImgs,9)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/21.jpg" onclick="openLb(italieImgs,10)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/22.jpg" onclick="openLb(italieImgs,11)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/23.jpg" onclick="openLb(italieImgs,12)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/25.jpg" onclick="openLb(italieImgs,13)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/27.jpg" onclick="openLb(italieImgs,14)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/28.jpg" onclick="openLb(italieImgs,15)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/29.jpg" onclick="openLb(italieImgs,16)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/30.jpg" onclick="openLb(italieImgs,17)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/31.jpg" onclick="openLb(italieImgs,18)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/32.jpg" onclick="openLb(italieImgs,19)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/35.jpg" onclick="openLb(italieImgs,20)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/38.jpg" onclick="openLb(italieImgs,21)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/39.jpg" onclick="openLb(italieImgs,22)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/40.jpg" onclick="openLb(italieImgs,23)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/41.jpg" onclick="openLb(italieImgs,24)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/42.jpg" onclick="openLb(italieImgs,25)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/43.jpg" onclick="openLb(italieImgs,26)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/44.jpg" onclick="openLb(italieImgs,27)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/45.jpg" onclick="openLb(italieImgs,28)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/46.jpg" onclick="openLb(italieImgs,29)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/47.jpg" onclick="openLb(italieImgs,30)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/48.jpg" onclick="openLb(italieImgs,31)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte I/49.jpg" onclick="openLb(italieImgs,32)" loading="lazy" /></div></div><div class="carousel-nav"><button onclick="moveItalieCarousel(-1)" aria-label="Image précédente">←</button><div class="carousel-counter" id="italie-counter"><span id="italie-cur">1</span> / <span id="italie-total">33</span></div><button onclick="moveItalieCarousel(1)" aria-label="Image suivante">→</button></div></div></div></div>
 <div class="modal" id="modal-italie2" role="dialog" aria-modal="true" aria-labelledby="modal-italie2-title" onclick="if(event.target===this)closeModal('modal-italie2')"><button class="modal-close" id="close-italie2" onclick="closeModal('modal-italie2')">✕ fermer</button><div class="modal-inner"><span class="modal-tag">Voyage · Acte II · 2025</span><h2 class="modal-title" id="modal-italie2-title">Le chaos aussi a un plan — 2025</h2><p class="pull-quote-breton">« Non tutto il male viene per nuocere. »</p><p class="pull-quote-translation">(Il n'y a pas de mal qui n'apporte pas son bien.)</p><div class="modal-body"><p>Rome en premier, comme on règle une dette. Grandiose, épuisante, indifférente à tout sauf à elle-même. La ville qui a tout inventé et qui le sait. Les ruelles du Trastevere, le Colisée sous la lumière de fin de journée, les terrasses bruyantes où tout le monde parle fort et personne ne s'excuse. Rome ne t'accueille pas — elle te tolère, et c'est déjà un privilège.</p><p>Puis Naples retrouvée, fidèle à elle-même. Bruyante, généreuse, incontrôlable. La ville qui te prend par l'épaule dès que tu descends du train, qui t'engueule et t'embrasse dans la même phrase. Revoir le Quartier Espagnol avec un ami à côté, c'est différent — on partage ce qu'on ne dirait pas tout seul. Et Bacoli encore, comme un rituel, les pieds dans l'eau des lacs volcaniques, le soleil qui s'effondre derrière le cap Misène.</p><p>Jusqu'à ce que les clés de voiture décident de continuer le voyage sans moi.</p><p>Ce qui a suivi : les poches vidées dix fois, les appels à l'assurance, la voix automatique qui vous met en attente, le rapatriement, la paperasse, l'attente encore. Tout ce qu'on imagine jamais quand on rêve d'un voyage. Tout ce qu'on raconte pendant des années après.</p><p>Mais l'Italie avait un plan B — elle en a toujours un. Les Cinque Terre en voiture, par les routes de crête qui surplombent la côte ligure, là où le GPS capitule et où on improvise. Des panoramas que le train ne montre jamais. Vernazza, Manarola, Riomaggiore vues d'en haut avant d'être vues d'en bas — les façades colorées collées à la falaise, la Méditerranée en fond, et cette impression que le monde peut être beau même quand la journée a mal commencé.</p><p>On voyage pour les plans qu'on a faits. On se souvient des plans qui ont foiré. Un accident transformé en cadeau, une mésaventure transformée en détour. C'est peut-être ça, voyager vraiment — lâcher le contrôle et faire confiance à la route.</p><p>Les meilleurs souvenirs ne sont presque jamais ceux qu'on avait prévus.</p></div><div class="carousel"><div class="carousel-track" id="italie2-track"><div class="slide active"><img src="photos/optimized/Italie/Acte II/01.jpg" onclick="openLb(italie2Imgs,0)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/02.jpg" onclick="openLb(italie2Imgs,1)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/03.jpg" onclick="openLb(italie2Imgs,2)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/04.jpg" onclick="openLb(italie2Imgs,3)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/06.jpg" onclick="openLb(italie2Imgs,4)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/08.jpg" onclick="openLb(italie2Imgs,5)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/10.jpg" onclick="openLb(italie2Imgs,6)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/12.jpg" onclick="openLb(italie2Imgs,7)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/16.jpg" onclick="openLb(italie2Imgs,8)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/19.jpg" onclick="openLb(italie2Imgs,9)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/24.jpg" onclick="openLb(italie2Imgs,10)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/26.jpg" onclick="openLb(italie2Imgs,11)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/33.jpg" onclick="openLb(italie2Imgs,12)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/34.jpg" onclick="openLb(italie2Imgs,13)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/36.jpg" onclick="openLb(italie2Imgs,14)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/37.jpg" onclick="openLb(italie2Imgs,15)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/38.jpg" onclick="openLb(italie2Imgs,16)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/39.jpg" onclick="openLb(italie2Imgs,17)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/IMG_0360.jpeg" onclick="openLb(italie2Imgs,18)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/41.jpg" onclick="openLb(italie2Imgs,19)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/42.jpg" onclick="openLb(italie2Imgs,20)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/43.jpg" onclick="openLb(italie2Imgs,21)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/44.jpg" onclick="openLb(italie2Imgs,22)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/45.jpg" onclick="openLb(italie2Imgs,23)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/46.jpg" onclick="openLb(italie2Imgs,24)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/47.jpg" onclick="openLb(italie2Imgs,25)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/48.jpg" onclick="openLb(italie2Imgs,26)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/49.jpg" onclick="openLb(italie2Imgs,27)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/50.jpg" onclick="openLb(italie2Imgs,28)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/51.webp" onclick="openLb(italie2Imgs,29)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/52.jpg" onclick="openLb(italie2Imgs,30)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/53.jpg" onclick="openLb(italie2Imgs,31)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/54.jpg" onclick="openLb(italie2Imgs,32)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/55.jpg" onclick="openLb(italie2Imgs,33)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/56.jpg" onclick="openLb(italie2Imgs,34)" loading="lazy" /></div><div class="slide"><img src="photos/optimized/Italie/Acte II/57.jpg" onclick="openLb(italie2Imgs,35)" loading="lazy" /></div></div><div class="carousel-nav"><button onclick="moveItalie2Carousel(-1)" aria-label="Image précédente">←</button><div class="carousel-counter" id="italie2-counter"><span id="italie2-cur">1</span> / <span id="italie2-total">36</span></div><button onclick="moveItalie2Carousel(1)" aria-label="Image suivante">→</button></div></div></div></div>
@@ -833,6 +892,16 @@ const TRIPS_DATA = [
     "articleExcerpt": "La ville grise qui ne dort jamais tout à fait."
   },
   {
+    "id": "paris-toujours",
+    "coordinates": [2.3522, 48.8566],
+    "location": "Paris, France",
+    "date": "Toujours",
+    "photos": [],
+    "modal": "modal-paris",
+    "articleTitle": "Palimpseste",
+    "articleExcerpt": "On ne d\u00e9couvre pas Paris. On y revient \u2014 m\u00eame la premi\u00e8re fois."
+  },
+  {
     "id": "naples-2024-25",
     "group": "italie",
     "coordinates": [
@@ -964,6 +1033,7 @@ window.addEventListener('load', function() {
       document.getElementById('mp-loc').textContent     = d.name;
       document.getElementById('mp-title').textContent   = d.articleTitle;
       document.getElementById('mp-excerpt').textContent = d.articleExcerpt;
+      btn.textContent = 'Lire l\u2019article \u2192';
       if (d.modal) { btn.setAttribute('data-modal', d.modal); if(d.scrollTo){btn.setAttribute('data-anchor', d.scrollTo);}else{btn.removeAttribute('data-anchor');} btn.style.display = 'block'; }
       else { btn.style.display = 'none'; }
       popup.classList.add('open');
@@ -1093,6 +1163,316 @@ window.addEventListener('load', function() {
         listEl.appendChild(li);
       });
     }
+
+    // ─── LE CIEL — nuit, constellations & Run against Cancer ─────────────
+    (function(){
+      var canvas = document.getElementById('sky-canvas');
+      var skyBtn = document.getElementById('sky-btn');
+      if (!canvas || !skyBtn) return;
+      var ctx = canvas.getContext('2d');
+      var DPR = Math.min(window.devicePixelRatio || 1, 2);
+      var W = 0, H = 0;
+      function sizeCanvas(){
+        W = wrapEl.offsetWidth; H = wrapEl.offsetHeight;
+        canvas.width = W * DPR; canvas.height = H * DPR;
+        canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      }
+      var D2R = Math.PI / 180;
+      var CREAM = '244,239,230', GOLD = '196,154,82';
+
+      // Constellations réelles (RA°, Dec°) — la Grande Ourse devient « Run against Cancer »
+      var CONS = [
+        { name: 'Cassiopée', stars: [[2.25,59.15],[10.1,56.54],[14.2,60.72],[21.5,60.24],[28.5,63.67]],
+          lines: [[0,1],[1,2],[2,3],[3,4]] },
+        { name: 'Orion', stars: [[88.8,7.41],[81.3,6.35],[85.2,-1.94],[84.0,-1.2],[83.0,-0.3],[86.9,-9.67],[78.6,-8.2]],
+          lines: [[0,1],[1,4],[4,3],[3,2],[2,0],[2,5],[5,6],[6,4]] },
+        { name: 'Cygne', stars: [[310.4,45.28],[305.6,40.26],[311.6,33.97],[296.2,45.13],[292.7,27.96]],
+          lines: [[0,1],[1,4],[1,2],[1,3]] },
+        { name: 'Lyre', stars: [[279.2,38.78],[282.5,33.36],[284.7,32.69],[283.6,36.9],[281.2,37.6]],
+          lines: [[0,4],[4,1],[1,2],[2,3],[3,4]] },
+        { name: 'Scorpion', stars: [[247.4,-26.43],[241.4,-19.81],[240.1,-22.62],[239.7,-26.11],[252.5,-34.29],[263.4,-37.1],[264.3,-43.0]],
+          lines: [[1,2],[3,2],[2,0],[0,4],[4,5],[5,6]] },
+        { name: 'Petite Ourse', stars: [[37.9,89.26],[222.7,74.16],[230.2,71.83],[263.1,86.59],[251.5,82.04],[236.0,77.79],[244.4,75.75]],
+          lines: [[0,3],[3,4],[4,5],[5,6],[6,2],[2,1],[1,5]] },
+        { name: 'Taureau', stars: [[69.0,16.51],[81.6,28.61],[84.4,21.14],[65.0,15.63],[67.2,19.18]],
+          lines: [[3,0],[0,2],[3,4],[4,1]] }
+      ];
+      // Grande Ourse — sept étoiles pour Danièle
+      var DANIELE = {
+        name: 'Run against Cancer',
+        sub: 'exposition temporaire \u00b7 courir pour Dani\u00e8le',
+        stars: [[165.9,61.75],[165.45,56.38],[178.5,53.69],[183.9,57.03],[193.5,55.96],[201.3,54.93],[206.9,49.31]],
+        lines: [[0,1],[1,2],[2,3],[3,0],[3,4],[4,5],[5,6]]
+      };
+
+      function vec(ra, dec){
+        var r = ra * D2R, d = dec * D2R;
+        return [Math.cos(d) * Math.sin(r), Math.sin(d), Math.cos(d) * Math.cos(r)];
+      }
+      CONS.forEach(function(cn){ cn.v = cn.stars.map(function(s){ return vec(s[0], s[1]); }); });
+      DANIELE.v = DANIELE.stars.map(function(s){ return vec(s[0], s[1]); });
+
+      // Fond d'étoiles
+      var BG = [];
+      for (var i = 0; i < 460; i++) {
+        var dec = Math.asin(Math.random() * 2 - 1) / D2R, ra = Math.random() * 360;
+        BG.push({ v: vec(ra, dec), s: 0.4 + Math.random(), tw: Math.random() * 6.28, sp: 0.4 + Math.random() * 1.4 });
+      }
+
+      var TAU = Math.PI * 2;
+      var yaw = 150 * D2R, pitch = 45 * D2R, vyaw = 0, vpitch = 0, FOV = 62 * D2R;
+      var skyOn = false, t0 = 0, dragging = false, moved = 0, lx = 0, ly = 0;
+      var hoverD = false, yawT = null, pitchT = null, raf = null;
+      var dCx = -1, dCy = -1, dR = 0;
+
+      function project(v){
+        var cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+        var x1 = v[0] * cy - v[2] * sy, z1 = v[0] * sy + v[2] * cy;
+        var y2 = v[1] * cp - z1 * sp, z2 = v[1] * sp + z1 * cp;
+        if (z2 <= 0.08) return null;
+        var f = (H / 2) / Math.tan(FOV / 2);
+        return [W / 2 + x1 / z2 * f, H / 2 - y2 / z2 * f];
+      }
+      function clamp01(x){ return x < 0 ? 0 : x > 1 ? 1 : x; }
+      function ease(x){ return 1 - Math.pow(1 - x, 3); }
+      function lerp(a, b, t){ return a + (b - a) * t; }
+      var lsOK = ('letterSpacing' in ctx);
+
+      function drawConstellation(cn, t, start, gold){
+        var col = gold ? GOLD : CREAM;
+        var pts = cn.v.map(project);
+        // lignes progressives
+        for (var i = 0; i < cn.lines.length; i++) {
+          var p = ease(clamp01((t - start - i * 0.14) / 0.4));
+          if (p <= 0) continue;
+          var a = pts[cn.lines[i][0]], b = pts[cn.lines[i][1]];
+          if (!a || !b) continue;
+          ctx.strokeStyle = 'rgba(' + col + ',' + (gold ? 0.55 : 0.3) * p + ')';
+          ctx.lineWidth = gold ? 1.1 : 0.7;
+          ctx.beginPath();
+          ctx.moveTo(a[0], a[1]);
+          ctx.lineTo(lerp(a[0], b[0], p), lerp(a[1], b[1], p));
+          ctx.stroke();
+        }
+        // étoiles
+        var minX = 1e9, maxX = -1e9, minY = 1e9, maxY = -1e9, vis = 0;
+        for (var j = 0; j < pts.length; j++) {
+          var pt = pts[j];
+          if (!pt) continue;
+          vis++;
+          if (pt[0] < minX) minX = pt[0]; if (pt[0] > maxX) maxX = pt[0];
+          if (pt[1] < minY) minY = pt[1]; if (pt[1] > maxY) maxY = pt[1];
+          var ap = ease(clamp01((t - start - j * 0.1) / 0.45));
+          if (ap <= 0) continue;
+          var r = gold ? 2.6 + 0.5 * Math.sin(t * 2 + j * 1.7) : 1.7;
+          var burst = gold ? 1 + 2.2 * (1 - ap) : 1;
+          ctx.save();
+          ctx.shadowColor = 'rgba(' + col + ',' + 0.9 * ap + ')';
+          ctx.shadowBlur = gold ? 14 : 6;
+          ctx.fillStyle = 'rgba(' + col + ',' + (gold ? 0.95 : 0.85) * ap + ')';
+          ctx.beginPath();
+          ctx.arc(pt[0], pt[1], r * burst, 0, TAU);
+          ctx.fill();
+          ctx.restore();
+        }
+        if (vis < 2) { if (gold) { dCx = -1; } return; }
+        var cx = (minX + maxX) / 2, cyy = (minY + maxY) / 2;
+        var doneAt = start + cn.lines.length * 0.14 + 0.4;
+        var la = ease(clamp01((t - doneAt) / 0.8));
+        ctx.textAlign = 'center';
+        if (gold) {
+          dCx = cx; dCy = cyy; dR = Math.max(maxX - minX, maxY - minY) / 2 + 34;
+          // halo pointillé rotatif
+          ctx.save();
+          ctx.strokeStyle = 'rgba(' + GOLD + ',' + 0.35 * la + ')';
+          ctx.lineWidth = 0.8;
+          ctx.setLineDash([2, 7]);
+          ctx.lineDashOffset = -t * 8;
+          ctx.beginPath();
+          ctx.arc(cx, cyy, dR + (hoverD ? 4 : 0), 0, TAU);
+          ctx.stroke();
+          ctx.restore();
+          if (lsOK) ctx.letterSpacing = '0px';
+          ctx.fillStyle = 'rgba(' + GOLD + ',' + 0.95 * la + ')';
+          ctx.font = 'italic 400 17px "Cormorant Garamond", serif';
+          ctx.fillText(cn.name, cx, maxY + 42);
+          if (lsOK) ctx.letterSpacing = '2px';
+          ctx.font = '9px "DM Sans", sans-serif';
+          ctx.fillStyle = 'rgba(' + CREAM + ',' + 0.5 * la + ')';
+          ctx.fillText(cn.sub.toUpperCase(), cx, maxY + 60);
+          if (lsOK) ctx.letterSpacing = '0px';
+        } else {
+          if (lsOK) ctx.letterSpacing = '2.5px';
+          ctx.font = '9.5px "DM Sans", sans-serif';
+          ctx.fillStyle = 'rgba(' + CREAM + ',' + 0.4 * la + ')';
+          ctx.fillText(cn.name.toUpperCase(), cx, maxY + 22);
+          if (lsOK) ctx.letterSpacing = '0px';
+        }
+      }
+
+      function draw(now){
+        raf = requestAnimationFrame(draw);
+        if (!skyOn) { cancelAnimationFrame(raf); raf = null; return; }
+        var t = (now - t0) / 1000;
+        // inertie & dérive
+        if (!dragging) {
+          if (yawT !== null) {
+            yaw += (yawT - yaw) * 0.055;
+            pitch += (pitchT - pitch) * 0.055;
+            if (Math.abs(yawT - yaw) < 0.002 && Math.abs(pitchT - pitch) < 0.002) { yawT = null; pitchT = null; }
+          } else {
+            yaw += vyaw; pitch += vpitch;
+            vyaw *= 0.94; vpitch *= 0.94;
+            if (Math.abs(vyaw) < 0.00002) yaw += 0.00009; // dérive contemplative
+          }
+        }
+        pitch = Math.max(-80 * D2R, Math.min(85 * D2R, pitch));
+        if (yaw > TAU) { yaw -= TAU; if (yawT !== null) yawT -= TAU; }
+        if (yaw < 0) { yaw += TAU; if (yawT !== null) yawT += TAU; }
+
+        ctx.clearRect(0, 0, W, H);
+        var nf = ease(clamp01(t / 1.4));
+        // tombée de la nuit
+        var g = ctx.createRadialGradient(W / 2, H * 0.42, 0, W / 2, H * 0.42, Math.max(W, H) * 0.8);
+        g.addColorStop(0, '#1d1a15');
+        g.addColorStop(1, '#0f0d0a');
+        ctx.globalAlpha = nf;
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, W, H);
+        ctx.globalAlpha = 1;
+        // fond d'étoiles scintillantes
+        for (var i = 0; i < BG.length; i++) {
+          var st = BG[i], p = project(st.v);
+          if (!p) continue;
+          var a = nf * (0.32 + 0.3 * Math.sin(t * st.sp + st.tw));
+          if (a <= 0.02) continue;
+          ctx.fillStyle = 'rgba(' + CREAM + ',' + a + ')';
+          ctx.fillRect(p[0], p[1], st.s, st.s);
+        }
+        // constellations, une à une
+        for (var k = 0; k < CONS.length; k++) drawConstellation(CONS[k], t, 0.9 + k * 0.5, false);
+        drawConstellation(DANIELE, t, 0.9 + CONS.length * 0.5 + 0.5, true);
+      }
+
+      function openExpoPopup(){
+        var btn = document.getElementById('mp-read-btn');
+        document.getElementById('mp-loc').textContent = 'Exposition temporaire \u00b7 Sept. 2026';
+        document.getElementById('mp-title').textContent = 'Run against Cancer';
+        document.getElementById('mp-excerpt').textContent = '42 kilom\u00e8tres. Un pr\u00e9nom. Le marathon de Vannes, couru pour Dani\u00e8le au profit de l\u2019Institut Curie \u2014 sept \u00e9toiles dans la Grande Ourse.';
+        btn.setAttribute('data-modal', 'modal-expo');
+        btn.removeAttribute('data-anchor');
+        btn.textContent = 'D\u00e9couvrir \u2192';
+        btn.style.display = 'block';
+        document.getElementById('map-popup').classList.add('open');
+      }
+
+      function focusDaniele(fromFar){
+        var tY = 186 * D2R, tP = 56 * D2R; // centre Grande Ourse
+        if (fromFar) { yaw = tY - 40 * D2R; pitch = tP - 22 * D2R; }
+        var d = tY - yaw;
+        if (d > Math.PI) tY -= TAU;
+        if (d < -Math.PI) tY += TAU;
+        yawT = tY; pitchT = tP;
+      }
+
+      function enterSky(focus){
+        if (skyOn) { if (focus) focusDaniele(false); return; }
+        skyOn = true;
+        window._skyMode = true;
+        sizeCanvas();
+        wrapEl.classList.add('sky-on');
+        document.getElementById('sky-btn-label').textContent = 'retour sur terre';
+        document.getElementById('map-popup').classList.remove('open');
+        globe.controls().autoRotate = false;
+        globe.htmlElementsData([]);
+        globe.arcsData([]);
+        t0 = performance.now();
+        vyaw = 0; vpitch = 0;
+        if (focus) focusDaniele(true); else { yaw = 150 * D2R; pitch = 45 * D2R; yawT = null; pitchT = null; }
+        if (!raf) raf = requestAnimationFrame(draw);
+      }
+      function exitSky(){
+        if (!skyOn) return;
+        skyOn = false;
+        window._skyMode = false;
+        wrapEl.classList.remove('sky-on');
+        document.getElementById('sky-btn-label').textContent = 'constellations';
+        document.getElementById('map-popup').classList.remove('open');
+        refreshPoints();
+        globe.arcsData(journeyArcs);
+        globe.controls().autoRotate = true;
+      }
+      window._enterSky = enterSky;
+      window._exitSky = exitSky;
+
+      skyBtn.addEventListener('click', function(){ skyOn ? exitSky() : enterSky(false); });
+
+      // fl\u00e8che discr\u00e8te : visible seulement quand on n\u2019est pas zoom\u00e9 sur le globe
+      globe.onZoom(function(pov){
+        if (skyOn) return;
+        skyBtn.classList.toggle('is-hidden', pov.altitude <= 1.05);
+      });
+
+      // navigation au doigt / à la souris
+      canvas.addEventListener('pointerdown', function(e){
+        dragging = true; moved = 0;
+        lx = e.clientX; ly = e.clientY;
+        vyaw = 0; vpitch = 0; yawT = null; pitchT = null;
+        canvas.setPointerCapture(e.pointerId);
+        canvas.style.cursor = 'grabbing';
+      });
+      canvas.addEventListener('pointermove', function(e){
+        var rect = canvas.getBoundingClientRect();
+        var mx = e.clientX - rect.left, my = e.clientY - rect.top;
+        if (dragging) {
+          var f = (H / 2) / Math.tan(FOV / 2);
+          var dx = e.clientX - lx, dy = e.clientY - ly;
+          yaw -= dx / f; pitch += dy / f;
+          vyaw = -dx / f; vpitch = dy / f;
+          moved += Math.abs(dx) + Math.abs(dy);
+          lx = e.clientX; ly = e.clientY;
+        } else {
+          hoverD = dCx > 0 && Math.hypot(mx - dCx, my - dCy) < dR + 16;
+          canvas.style.cursor = hoverD ? 'pointer' : 'grab';
+        }
+      });
+      canvas.addEventListener('pointerup', function(e){
+        dragging = false;
+        canvas.style.cursor = 'grab';
+        if (moved < 7) {
+          var rect = canvas.getBoundingClientRect();
+          var mx = e.clientX - rect.left, my = e.clientY - rect.top;
+          if (dCx > 0 && Math.hypot(mx - dCx, my - dCy) < dR + 16) {
+            focusDaniele(false);
+            openExpoPopup();
+          } else {
+            document.getElementById('map-popup').classList.remove('open');
+          }
+        }
+      });
+      canvas.addEventListener('pointercancel', function(){ dragging = false; });
+      window.addEventListener('resize', function(){ if (skyOn) sizeCanvas(); });
+
+      // entrée « exposition temporaire » dans la liste des destinations
+      var listExpo = document.getElementById('dest-list');
+      if (listExpo) {
+        var sepE = document.createElement('li');
+        sepE.className = 'dest-sep';
+        sepE.textContent = 'exposition temporaire';
+        listExpo.appendChild(sepE);
+        var liE = document.createElement('li');
+        liE.className = 'dest-item dest-item--expo';
+        liE.innerHTML = '<span class="dest-city">\u2726 Run against Cancer</span><span class="dest-date">Sept. 2026</span>';
+        liE.addEventListener('click', function(){
+          document.querySelectorAll('.dest-item').forEach(function(el){ el.classList.remove('active'); });
+          liE.classList.add('active');
+          enterSky(true);
+          setTimeout(openExpoPopup, 1600);
+        });
+        listExpo.appendChild(liE);
+      }
+    })();
 
     // Altitude adaptive : zoom out si canvas portrait pour ne pas rogner la sphère
     var defaultAlt = (h / w) > 1.1 ? Math.min(2.4, 1.65 * (h / w)) : 1.65;
@@ -1397,6 +1777,22 @@ var mektoub3Slide=0;
 function moveMektoub3Carousel(d){var s=document.querySelectorAll('#mektoub3-track .slide');s[mektoub3Slide].classList.remove('active');mektoub3Slide=(mektoub3Slide+d+s.length)%s.length;s[mektoub3Slide].classList.add('active');document.getElementById('mektoub3-cur').textContent=mektoub3Slide+1;}
 function goToMektoub3Slide(n){var s=document.querySelectorAll('#mektoub3-track .slide');s[mektoub3Slide].classList.remove('active');mektoub3Slide=n;s[n].classList.add('active');document.getElementById('mektoub3-cur').textContent=n+1;}
 
+// ─── PARIS CAROUSELS ─
+(function(){
+  ['Paris1','Paris2','Paris3'].forEach(function(name){
+    var id = name.toLowerCase(), cur = 0;
+    window['move'+name+'Carousel'] = function(d){
+      var s = document.querySelectorAll('#'+id+'-track .slide');
+      if(!s.length) return;
+      s[cur].classList.remove('active');
+      cur = (cur + d + s.length) % s.length;
+      s[cur].classList.add('active');
+      var el = document.getElementById(id+'-cur');
+      if(el) el.textContent = cur + 1;
+    };
+  });
+})();
+
 // ─── CLIC MOITIÉ IMAGE → navigation (gauche = précédente, droite = suivante) ─
 (function(){
   var cfgs=[
@@ -1406,6 +1802,9 @@ function goToMektoub3Slide(n){var s=document.querySelectorAll('#mektoub3-track .
     {sel:'#mektoub1-track',prev:function(){moveMektoub1Carousel(-1);},next:function(){moveMektoub1Carousel(1);}},
     {sel:'#mektoub2-track',prev:function(){moveMektoub2Carousel(-1);},next:function(){moveMektoub2Carousel(1);}},
     {sel:'#mektoub3-track',prev:function(){moveMektoub3Carousel(-1);},next:function(){moveMektoub3Carousel(1);}},
+    {sel:'#paris1-track', prev:function(){moveParis1Carousel(-1);}, next:function(){moveParis1Carousel(1);}},
+    {sel:'#paris2-track', prev:function(){moveParis2Carousel(-1);}, next:function(){moveParis2Carousel(1);}},
+    {sel:'#paris3-track', prev:function(){moveParis3Carousel(-1);}, next:function(){moveParis3Carousel(1);}},
     {sel:'#londres-track', prev:function(){moveLondresCarousel(-1);}, next:function(){moveLondresCarousel(1);}},
     {sel:'#italie-track',  prev:function(){moveItalieCarousel(-1);},  next:function(){moveItalieCarousel(1);}},
     {sel:'#italie2-track', prev:function(){moveItalie2Carousel(-1);}, next:function(){moveItalie2Carousel(1);}},
