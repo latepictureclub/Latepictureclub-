@@ -1244,7 +1244,7 @@ window.addEventListener('load', function() {
         var pts = cn.v.map(project);
         // lignes progressives
         for (var i = 0; i < cn.lines.length; i++) {
-          var p = ease(clamp01((t - start - i * 0.14) / 0.4));
+          var p = ease(clamp01((t - start - i * 0.07) / 0.2));
           if (p <= 0) continue;
           var a = pts[cn.lines[i][0]], b = pts[cn.lines[i][1]];
           if (!a || !b) continue;
@@ -1263,7 +1263,7 @@ window.addEventListener('load', function() {
           vis++;
           if (pt[0] < minX) minX = pt[0]; if (pt[0] > maxX) maxX = pt[0];
           if (pt[1] < minY) minY = pt[1]; if (pt[1] > maxY) maxY = pt[1];
-          var ap = ease(clamp01((t - start - j * 0.1) / 0.45));
+          var ap = ease(clamp01((t - start - j * 0.05) / 0.22));
           if (ap <= 0) continue;
           var r = gold ? 2.6 + 0.5 * Math.sin(t * 2 + j * 1.7) : 1.7;
           var burst = gold ? 1 + 2.2 * (1 - ap) : 1;
@@ -1278,7 +1278,7 @@ window.addEventListener('load', function() {
         }
         if (vis < 2) { if (gold) { dCx = -1; } return; }
         var cx = (minX + maxX) / 2, cyy = (minY + maxY) / 2;
-        var doneAt = start + cn.lines.length * 0.14 + 0.4;
+        var doneAt = start + cn.lines.length * 0.07 + 0.2;
         var la = ease(clamp01((t - doneAt) / 0.8));
         ctx.textAlign = 'center';
         if (gold) {
@@ -1332,7 +1332,7 @@ window.addEventListener('load', function() {
         if (yaw < 0) { yaw += TAU; if (yawT !== null) yawT += TAU; }
 
         ctx.clearRect(0, 0, W, H);
-        var nf = ease(clamp01(t / 1.4));
+        var nf = ease(clamp01(t / 0.7));
         // tombée de la nuit
         var g = ctx.createRadialGradient(W / 2, H * 0.42, 0, W / 2, H * 0.42, Math.max(W, H) * 0.8);
         g.addColorStop(0, '#1d1a15');
@@ -1351,8 +1351,8 @@ window.addEventListener('load', function() {
           ctx.fillRect(p[0], p[1], st.s, st.s);
         }
         // constellations, une à une
-        for (var k = 0; k < CONS.length; k++) drawConstellation(CONS[k], t, 0.9 + k * 0.5, false);
-        drawConstellation(DANIELE, t, 0.9 + CONS.length * 0.5 + 0.5, true);
+        for (var k = 0; k < CONS.length; k++) drawConstellation(CONS[k], t, 0.4 + k * 0.22, false);
+        drawConstellation(DANIELE, t, 0.4 + CONS.length * 0.22 + 0.22, true);
       }
 
       function openExpoPopup(){
@@ -1409,7 +1409,7 @@ window.addEventListener('load', function() {
       skyBtn.addEventListener('click', function(){
         if (skyOn) { exitSky(); return; }
         enterSky(true);
-        setTimeout(function(){ openExpoPopup(); }, 1600);
+        
       });
 
       // fl\u00e8che discr\u00e8te : visible seulement quand on n\u2019est pas zoom\u00e9 sur le globe
@@ -1472,7 +1472,7 @@ window.addEventListener('load', function() {
           document.querySelectorAll('.dest-item').forEach(function(el){ el.classList.remove('active'); });
           liE.classList.add('active');
           enterSky(true);
-          setTimeout(function(){ openExpoPopup(); }, 1600);
+          
         });
         listExpo.appendChild(liE);
       }
