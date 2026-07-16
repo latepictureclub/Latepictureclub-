@@ -1409,7 +1409,7 @@ window.addEventListener('load', function() {
       skyBtn.addEventListener('click', function(){
         if (skyOn) { exitSky(); return; }
         enterSky(true);
-        setTimeout(function(){ openExpoPopup(); openModal('modal-expo'); }, 1600);
+        setTimeout(function(){ openExpoPopup(); }, 1600);
       });
 
       // fl\u00e8che discr\u00e8te : visible seulement quand on n\u2019est pas zoom\u00e9 sur le globe
@@ -1472,7 +1472,7 @@ window.addEventListener('load', function() {
           document.querySelectorAll('.dest-item').forEach(function(el){ el.classList.remove('active'); });
           liE.classList.add('active');
           enterSky(true);
-          setTimeout(function(){ openExpoPopup(); openModal('modal-expo'); }, 1600);
+          setTimeout(function(){ openExpoPopup(); }, 1600);
         });
         listExpo.appendChild(liE);
       }
