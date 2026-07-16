@@ -464,7 +464,7 @@ Le "Club" n'est pas une élite. C'est un sentiment d'appartenance. L'idée que q
 <p class="pull-quote-translation">(En avant — breton.)</p>
 <p>42 kilomètres. Un prénom.</p>
 <p><em>Danièle. Ma grand-mère.</em></p>
-<p>Fin septembre, je courrai le marathon de Vannes. Pas contre un chrono — pour une cause. Chaque kilomètre parcouru soutient la recherche contre le cancer, aux côtés de l'Institut Curie.</p>
+<p>Fin septembre, je cours le marathon de Vannes. Pas contre un chrono — pour une cause. Chaque kilomètre parcouru soutient la recherche contre le cancer, aux côtés de l'Institut Curie.</p>
 <p>On photographie pour retenir. On court pour avancer. Ce projet fait les deux à la fois : garder une trace, et la transformer en quelque chose d'utile.</p>
 <p>Dans le ciel de ce site, la Grande Ourse porte son nom. Sept étoiles, comme les sept lettres de Danièle — une constellation qu'on retrouve toujours, où qu'on soit.</p>
 <p><em>La collecte est ouverte. Chaque don compte, quel que soit son montant.</em></p>
@@ -1359,7 +1359,7 @@ window.addEventListener('load', function() {
         var btn = document.getElementById('mp-read-btn');
         document.getElementById('mp-loc').textContent = 'Exposition temporaire \u00b7 Sept. 2026';
         document.getElementById('mp-title').textContent = 'Run against Cancer';
-        document.getElementById('mp-excerpt').textContent = '42 kilom\u00e8tres. Un pr\u00e9nom. Le marathon de Vannes, couru pour Dani\u00e8le au profit de l\u2019Institut Curie \u2014 sept \u00e9toiles dans la Grande Ourse.';
+        document.getElementById('mp-excerpt').textContent = '42 kilom\u00e8tres. Un pr\u00e9nom. Fin septembre, je cours le marathon de Vannes pour Dani\u00e8le, au profit de l\u2019Institut Curie \u2014 sept \u00e9toiles dans la Grande Ourse.';
         btn.setAttribute('data-modal', 'modal-expo');
         btn.removeAttribute('data-anchor');
         btn.textContent = 'D\u00e9couvrir \u2192';
@@ -1406,7 +1406,11 @@ window.addEventListener('load', function() {
       window._enterSky = enterSky;
       window._exitSky = exitSky;
 
-      skyBtn.addEventListener('click', function(){ skyOn ? exitSky() : enterSky(false); });
+      skyBtn.addEventListener('click', function(){
+        if (skyOn) { exitSky(); return; }
+        enterSky(true);
+        setTimeout(function(){ openExpoPopup(); openModal('modal-expo'); }, 1600);
+      });
 
       // fl\u00e8che discr\u00e8te : visible seulement quand on n\u2019est pas zoom\u00e9 sur le globe
       globe.onZoom(function(pov){
@@ -1468,7 +1472,7 @@ window.addEventListener('load', function() {
           document.querySelectorAll('.dest-item').forEach(function(el){ el.classList.remove('active'); });
           liE.classList.add('active');
           enterSky(true);
-          setTimeout(openExpoPopup, 1600);
+          setTimeout(function(){ openExpoPopup(); openModal('modal-expo'); }, 1600);
         });
         listExpo.appendChild(liE);
       }
